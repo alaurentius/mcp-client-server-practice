@@ -62,7 +62,6 @@ def get_doc(doc_id: str) -> str:
     return docs[doc_id]
 
 
-# TODO: Write a prompt to rewrite a doc in markdown format
 @mcp.prompt(
     name="format_to_markdown",
     description="Formats a document to markdown format.",
@@ -85,7 +84,26 @@ def format_to_markdown(
     return [base.UserMessage(prompt)]
 
 
-# TODO: Write a prompt to summarize a doc
+@mcp.prompt(
+    name="summarize_doc",
+    description="Summarizes a document.",
+)
+def summarize_doc(
+    doc_id=Field(description="The id of the document to summarize."),
+) -> list[base.Message]:
+    prompt = f"""
+    Your goal is to summarize a document.
+
+    The id of the document you need to summarize is:
+    <document_id>
+    {doc_id}
+    </document_id>
+
+    Add in headers, bullet points, tables, etc as necessary. Feel free to add in structure.
+    Use the 'edit_document' tool to edit the document. After the document has been reformatted...
+    """
+
+    return [base.UserMessage(prompt)]
 
 
 if __name__ == "__main__":
